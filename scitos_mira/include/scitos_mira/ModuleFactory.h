@@ -15,22 +15,21 @@
 #include <scitos_mira/ScitosG5.h>
 
 class ModuleFactory {
-private:
-	ModuleFactory();
-    ModuleFactory(const ModuleFactory &) { }
-    ModuleFactory &operator=(const ModuleFactory &) { return *this; }
-    std::map<std::string, ModuleCreator> modules_;
-public:
-    ~ModuleFactory() { modules_.clear(); }
-    static ModuleFactory *Get()
-    {
-        static ModuleFactory instance;
-        return &instance;
-    }
+	private:
+		ModuleFactory();
+		ModuleFactory(const ModuleFactory &) { }
+		ModuleFactory &operator=(const ModuleFactory &) { return *this; }
+		std::map<std::string, ModuleCreator> modules_;
+	public:
+		~ModuleFactory() { modules_.clear(); }
+		static ModuleFactory *Get(){
+			static ModuleFactory instance;
+			return &instance;
+		}
 
-    void Register(const std::string &name, ModuleCreator create);
-    ScitosModule *CreateModule(std::string name,  ScitosG5 *robot);
-    bool CheckForModule(const std::string &name);
+		void Register(const std::string &name, ModuleCreator create);
+		ScitosModule *CreateModule(std::string name,  ScitosG5 *robot);
+		bool CheckForModule(const std::string &name);
 };
 
 #endif /* MODULEFACTORY_H_ */

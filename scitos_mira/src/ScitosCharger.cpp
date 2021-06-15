@@ -12,35 +12,28 @@ ScitosCharger::ScitosCharger() : ScitosModule(std::string ("Charger")), reconfig
 
 void ScitosCharger::initialize() {
 	battery_pub_ = robot_->getRosNode().advertise<scitos_msgs::BatteryState>("/battery_state", 20);
-	robot_->getMiraAuthority().subscribe<mira::robot::BatteryState>("/robot/charger/Battery",
-							&ScitosCharger::battery_data_callback, this);
+	robot_->getMiraAuthority().subscribe<mira::robot::BatteryState>("/robot/charger/Battery", &ScitosCharger::battery_data_callback, this);
 
 	charger_pub_ = robot_->getRosNode().advertise<scitos_msgs::ChargerStatus>("/charger_status", 20);
-	robot_->getMiraAuthority().subscribe<uint8>("/robot/charger/ChargerStatus",
-							&ScitosCharger::charger_status_callback, this);
+	robot_->getMiraAuthority().subscribe<uint8>("/robot/charger/ChargerStatus", &ScitosCharger::charger_status_callback, this);
 
 	reconfigure_srv_.setCallback(boost::bind(&ScitosCharger::reconfigure_callback, this, _1, _2));
 
-	save_persistent_errors_service_ = robot_->getRosNode().advertiseService("charger/save_persistent_errors", 
-									       &ScitosCharger::save_persistent_errors, 
-									       this);
+	save_persistent_errors_service_ = robot_->getRosNode().advertiseService("charger/save_persistent_errors", &ScitosCharger::save_persistent_errors, this);
 
 }
 
 bool ScitosCharger::save_persistent_errors(scitos_msgs::SavePersistentErrors::Request  &req, scitos_msgs::SavePersistentErrors::Response &res) {
-  ROS_INFO_STREAM("Saving persistent error log to '" << req.filename << "'");
-  
-  //  call_mira_service
-  try {
-    mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", 
-									 std::string("savePersistentErrors"),
-									 req.filename);
-  } catch (mira::XRPC& e) {
-    ROS_ERROR_STREAM("Problem with RPC savePersistentErrors: " << e.message());
-    return false;
-  }
-  return true;
+	ROS_INFO_STREAM("Saving persistent error log to '" << req.filename << "'");
 
+	//  call_mira_service
+	try{
+		mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", std::string("savePersistentErrors"), req.filename);
+	}catch (mira::XRPC& e){
+		ROS_ERROR_STREAM("Problem with RPC savePersistentErrors: " << e.message());
+	return false;
+	}
+	return true;
 }
 
 

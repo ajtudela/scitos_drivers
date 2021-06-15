@@ -16,18 +16,17 @@
 #include <dynamic_reconfigure/server.h>
 
 class ScitosEBC: public ScitosModule {
-public:
-	static ScitosModule*  Create() {
-		return new ScitosEBC();
-	}
+	public:
+		static ScitosModule*  Create() {
+			return new ScitosEBC();
+		}
 
-	void initialize();
+		void initialize();
 
-	void reconfigure_callback(scitos_mira::EBCParametersConfig &config, uint32_t level);
-private:
-	ScitosEBC();
-	dynamic_reconfigure::Server<scitos_mira::EBCParametersConfig> reconfigure_srv_;
-
+		void reconfigure_callback(scitos_mira::EBCParametersConfig &config, uint32_t level);
+	private:
+		ScitosEBC();
+		dynamic_reconfigure::Server<scitos_mira::EBCParametersConfig> reconfigure_srv_;
 };
 
 #endif /* SCITOSEBC_H_ */

@@ -14,21 +14,20 @@
 class ScitosG5;
 
 class ScitosModule {
-public:
-  ScitosModule(std::string name);
-	void setRobot(ScitosG5 *robot) { robot_ = robot; };
+	public:
+	  ScitosModule(std::string name);
+		void setRobot(ScitosG5 *robot) { robot_ = robot; };
 
-	virtual void initialize() = 0;
+		virtual void initialize() = 0;
 
-	virtual ~ScitosModule();
+		virtual ~ScitosModule();
 
-protected:
-	bool set_mira_param_(std::string param_name, std::string value);
-	std::string get_mira_param_(std::string param_name);
-  ScitosG5 *robot_;
-  std::string name_;
-  ros::NodeHandle module_handle_;
-
+	protected:
+		bool set_mira_param_(std::string param_name, std::string value);
+		std::string get_mira_param_(std::string param_name);
+		ScitosG5 *robot_;
+		std::string name_;
+		ros::NodeHandle module_handle_;
 };
 
 typedef ScitosModule* (*ModuleCreator)(void);

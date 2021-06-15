@@ -1,2 +1,2 @@
-export MIRA_PATH=/opt/mira-scitos
+export MIRA_PATH=${HOME}/mira
 #(MIRA_ROOT_DIR)

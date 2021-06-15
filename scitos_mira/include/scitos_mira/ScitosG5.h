@@ -17,26 +17,25 @@
 #include <string>
 
 class ScitosG5{
-public:
-  ScitosG5(std::vector<std::string> modules);
-  ~ScitosG5();
+	public:
+		ScitosG5(std::vector<std::string> modules);
+		~ScitosG5();
 
-  mira::Authority& getMiraAuthority();
-  ros::NodeHandle& getRosNode();
+		mira::Authority& getMiraAuthority();
+		ros::NodeHandle& getRosNode();
 
-  void initialize();
-  void spin();
+		void initialize();
+		void spin();
 
-  void registerSpinFunction(boost::function<void ()> function);
-  tf::TransformBroadcaster& getTFBroadcaster();
+		void registerSpinFunction(boost::function<void ()> function);
+		tf::TransformBroadcaster& getTFBroadcaster();
 
-private:
-  mira::Authority authority_;
-  tf::TransformBroadcaster tf_broadcaster_;
-  ros::NodeHandle node_;
-  std::vector<ScitosModule*> modules_;
-  std::vector< boost::function<void ()> > spin_functions_;
-
+	private:
+		mira::Authority authority_;
+		tf::TransformBroadcaster tf_broadcaster_;
+		ros::NodeHandle node_;
+		std::vector<ScitosModule*> modules_;
+		std::vector< boost::function<void ()> > spin_functions_;
 };
 
 #endif

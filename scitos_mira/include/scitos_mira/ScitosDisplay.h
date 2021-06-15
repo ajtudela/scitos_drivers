@@ -13,20 +13,20 @@
 #include <scitos_mira/DisplayParametersConfig.h>
 
 class ScitosDisplay: public ScitosModule {
-public:
-	static ScitosModule*  Create() {
-		return new ScitosDisplay();
-	}
+	public:
+		static ScitosModule*  Create() {
+			return new ScitosDisplay();
+		}
 
-	void initialize();
-	
-	void reconfigure_callback(scitos_mira::DisplayParametersConfig &config, uint32_t level);
-	void menu_data_callback(mira::ChannelRead<uint8> data);
+		void initialize();
+		
+		void reconfigure_callback(scitos_mira::DisplayParametersConfig &config, uint32_t level);
+		void menu_data_callback(mira::ChannelRead<uint8> data);
 
-private:
-	ScitosDisplay();
-	dynamic_reconfigure::Server<scitos_mira::DisplayParametersConfig> reconfigure_srv_;
-	ros::Publisher display_data_pub_;
+	private:
+		ScitosDisplay();
+		dynamic_reconfigure::Server<scitos_mira::DisplayParametersConfig> reconfigure_srv_;
+		ros::Publisher display_data_pub_;
 };
 
 #endif
