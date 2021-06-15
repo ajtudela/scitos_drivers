@@ -2,9 +2,9 @@ pub_rate: 1.0
 base_path: '' 
 analyzers:
   computer:
-      type: GenericAnalyzer
+      type: diagnostic_aggregator/GenericAnalyzer
       path: Computer
-      contains: ['wlan0 Bandwidth',
+      contains: ['wlp2s0 Bandwidth',
         'CPU Usage',
         'CPU Temperature',
-        'wlan0 Connection' ]
+        'wlp2s0 Connection' ]

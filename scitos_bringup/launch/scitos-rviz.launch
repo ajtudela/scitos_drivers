@@ -27,4 +27,8 @@
 
 	<!-- Scitos dashboard -->
 	<node name="scitos_dashboard" pkg="scitos_dashboard" type="scitos_dashboard"/>
+
+	<!-- Display robot, tf, laser and cloud in Rviz -->
+	<arg name="rvizconfig" default="$(find scitos_bringup)/rviz/scitos.rviz" />
+	<node name="rviz" pkg="rviz" type="rviz" args="-d $(arg rvizconfig)" required="true" />
 </launch>
