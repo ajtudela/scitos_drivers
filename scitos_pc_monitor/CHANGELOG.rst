@@ -1,28 +1,13 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package scitos_pc_monitor
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-0.1.1 (2014-12-17)
+0.2.5 (2021-06-15)
 ------------------
-* `scitos_pc_monitor` package
-* Prepare pc_monitor for move to scitos_drivers
-* Contributors: Chris Burbridge
-
-0.1.2 (2015-01-13)
-------------------
-* Fix publisher queue_size for indigo.
-* indigo-0.1.1
-* Update changelogs.
-* Manual indigo version bump.
-* Prepare pc_monitor for move to scitos_drivers
-* Contributors: Chris Burbridge
+* Update GUI libraries
 
 0.2.0 (2017-06-28)
 ------------------
 * changelogs
-* changed maintainer from Chris to Marc
-* Contributors: Marc Hanheide
-
 * changed maintainer from Chris to Marc
 * Contributors: Marc Hanheide
 
@@ -52,6 +37,21 @@ Changelog for package scitos_pc_monitor
 * indigo-0.1.1
 * Update changelogs.
 * Manual indigo version bump.
+* Prepare pc_monitor for move to scitos_drivers
+* Contributors: Chris Burbridge
+
+0.1.2 (2015-01-13)
+------------------
+* Fix publisher queue_size for indigo.
+* indigo-0.1.1
+* Update changelogs.
+* Manual indigo version bump.
+* Prepare pc_monitor for move to scitos_drivers
+* Contributors: Chris Burbridge
+
+0.1.1 (2014-12-17)
+------------------
+* `scitos_pc_monitor` package
 * Prepare pc_monitor for move to scitos_drivers
 * Contributors: Chris Burbridge
 

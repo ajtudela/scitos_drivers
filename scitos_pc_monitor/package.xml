@@ -1,26 +1,19 @@
 <?xml version="1.0"?>
-<package>
-  <name>scitos_pc_monitor</name>
-  <version>0.2.0</version>
-  <description>Monitors the SCITOS embedded PC, ouputs diagnostics messages.</description>
-
-  <maintainer email="marc@hanheide.net">Marc Hanheide</maintainer>
-
-  <license>MIT</license>
-
-  <author email="cburbridge@gmail.com">Chris Burbridge</author>
-  <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>diagnostic_msgs</build_depend>
-  <build_depend>rospy</build_depend>
-  <build_depend>std_msgs</build_depend>
-  <run_depend>diagnostic_msgs</run_depend>
-  <run_depend>rospy</run_depend>
-  <run_depend>std_msgs</run_depend>
-  <run_depend>sysstat</run_depend>
-  <run_depend>lm-sensors</run_depend>
-
-
-  <export>
-
-  </export>
+<package format="2">
+	<name>scitos_pc_monitor</name>
+	<version>0.2.1</version>
+	<description>Monitors the SCITOS embedded PC, ouputs diagnostics messages.</description>
+	<maintainer email="marc@hanheide.net">Marc Hanheide</maintainer>
+	<license>MIT</license>
+	<author email="marc@hanheide.net">Marc Hanheide</author>
+	<author email="ajtudela@gmail.com">Alberto Tudela</author>
+	<buildtool_depend>catkin</buildtool_depend>
+	<build_depend>diagnostic_msgs</build_depend>
+	<build_depend>rospy</build_depend>
+	<build_depend>std_msgs</build_depend>
+	<exec_depend>diagnostic_msgs</exec_depend>
+	<exec_depend>rospy</exec_depend>
+	<exec_depend>std_msgs</exec_depend>
+	<exec_depend>sysstat</exec_depend>
+	<exec_depend>lm-sensors</exec_depend>
 </package>

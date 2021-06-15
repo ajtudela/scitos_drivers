@@ -5,7 +5,7 @@ import scitos_pc_monitor.sysmon as sysmon
 from diagnostic_msgs.msg import DiagnosticArray, DiagnosticStatus, KeyValue
 
 class PCMonitor(object):
-    def __init__(self, diagnostic_freq=0.2, pc_name="PC0", wlan_iface="wlan0"):
+    def __init__(self, diagnostic_freq=0.2, pc_name="PC0", wlan_iface="wlp2s0"):
         self._diagnostic_freq = diagnostic_freq
         self._pc_name = pc_name
         self._wlan_mon = sysmon.WirelessMonitor(iface=wlan_iface)
@@ -59,7 +59,7 @@ class PCMonitor(object):
 
 if __name__ == '__main__':
     rospy.init_node('pc_monitor')
-    wlan_iface = rospy.get_param("wireless_iface", "wlan0")
+    wlan_iface = rospy.get_param("wireless_iface", "wlp2s0")
     pc_name = rospy.get_param("pc_name", "PC0")
     monitor = PCMonitor(pc_name=pc_name, wlan_iface=wlan_iface)
     monitor.spin()
