@@ -6,17 +6,18 @@
 	<!-- BARRIER_ENABLED should be set to true to enable the magnetic strip detector to cut out
 	the motors. If set to false, then magnetic safety barriers will have no effect. -->
 	<arg name="BARRIER_ENABLED" default="true"/>
-
+	<arg name="ODOMETRY_FRAME" default="base_footprint" />
 	<!-- Remote Launching -->
-    <arg name="machine" default="localhost"/>
-    <arg name="user" default="" />
+	<arg name="machine" default="localhost"/>
+	<arg name="user" default="" />
 
-    <machine name="$(arg machine)" address="$(arg machine)" env-loader="$(optenv ROS_ENV_LOADER )" user="$(arg user)" default="true" />
+	<machine name="$(arg machine)" address="$(arg machine)" env-loader="$(optenv ROS_ENV_LOADER )" user="$(arg user)" default="true" />
 
+	<!-- Load Scitos Mira node -->
 	<node pkg="scitos_mira" type="scitos_node" name="scitos_node" output="screen" respawn="true">
 		<param name="config_file" value="$(arg SCITOS_CONFIG)" type="string"/>
 		<param name="scitos_modules" value="$(arg SCITOS_MODULES)" />
+		<param name="odometry_frame" value="$(arg ODOMETRY_FRAME)" />
 		<param name="magnetic_barrier_enabled" value="$(arg BARRIER_ENABLED)" />
 	</node>
-
 </launch>

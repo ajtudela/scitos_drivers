@@ -1,20 +1,19 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package scitos_drivers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-0.1.2 (2015-01-13)
+0.2.5 (2021-06-15)
 ------------------
-* indigo-0.1.1
-* Manual indigo version bump.
-* Add scitos_pc_monitor to metapackage.
-* Contributors: Chris Burbridge
+* melodic-0.1.1
+* Manual melodic version bump.
+* Update launches with xml header.
+* Update package to new format.
+* Update Drive module to firmware >= 1.7.
+* Changed maintainer from Marc to Alberto.
+* Contributors: Alberto Tudela
 
 0.2.0 (2017-06-28)
 ------------------
 * changelogs
-* changed maintainer from Chris to Marc
-* Contributors: Marc Hanheide
-
 * changed maintainer from Chris to Marc
 * Contributors: Marc Hanheide
 
@@ -40,6 +39,13 @@ Changelog for package scitos_drivers
 ------------------
 * indigo-0.1.2
 * Update changelogs.
+* indigo-0.1.1
+* Manual indigo version bump.
+* Add scitos_pc_monitor to metapackage.
+* Contributors: Chris Burbridge
+
+0.1.2 (2015-01-13)
+------------------
 * indigo-0.1.1
 * Manual indigo version bump.
 * Add scitos_pc_monitor to metapackage.

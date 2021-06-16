@@ -1,23 +1,16 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package scitos_mira
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-0.1.2 (2015-01-13)
+0.2.5 (2021-06-15)
 ------------------
-* indigo-0.1.1
-* Manual indigo version bump.
-* Contributors: Chris Burbridge
+* Update channels to latest version of MIRA.
+* Update MIRA environment.
+* Option to change odometry frame.
 
 0.2.0 (2017-06-28)
 ------------------
 * added qt4 dep
 * changelogs
-* changed maintainer from Chris to Marc
-* modifications required for new MIRA and Kinetic, plus setting MIRA_PATH from setup.bash
-* MotorReset enabled
-  fixes https://github.com/strands-project/scitos_robot/issues/77
-* Contributors: Marc Hanheide
-
 * changed maintainer from Chris to Marc
 * modifications required for new MIRA and Kinetic, plus setting MIRA_PATH from setup.bash
 * MotorReset enabled
