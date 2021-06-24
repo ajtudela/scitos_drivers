@@ -32,11 +32,18 @@ void ScitosDrive::initialize() {
 
 	motorstatus_pub_ = robot_->getRosNode().advertise<scitos_msgs::MotorStatus>("/motor_status", 20);
 
-	float firmwareVersion = std::stof(get_mira_param_("MotorController.SIFASVersion"));
-	if(firmwareVersion >= 1.7){
-		robot_->getMiraAuthority().subscribe<uint32>("/robot/DriveStatusPlain", &ScitosDrive::motor_status_expanded_callback, this);
-	}else{
+	try{
+		std::stof(get_mira_param_("MainControlUnit.FPGAVersion"));
 		robot_->getMiraAuthority().subscribe<uint8>("/robot/MotorStatus", &ScitosDrive::motor_status_callback, this);
+		ROS_INFO("You are using a FPGA version motor controller.");
+	}catch(...){
+		try{
+			std::stof(get_mira_param_("MotorController.SIFASVersion"));
+			robot_->getMiraAuthority().subscribe<uint32>("/robot/DriveStatusPlain", &ScitosDrive::motor_status_expanded_callback, this);
+			ROS_INFO("You are using a SIFAS version motor controller.");
+		}catch(...){
+			ROS_ERROR("Your motor controller is not compatible with this ros node.");
+		}
 	}
 
 	robot_->getMiraAuthority().subscribe<uint64>("/robot/RFIDUserTag", &ScitosDrive::rfid_status_callback, this);
@@ -54,10 +61,14 @@ void ScitosDrive::initialize() {
 	bool magnetic_barrier_enabled = true;
 	ros::param::param("~magnetic_barrier_enabled", magnetic_barrier_enabled, magnetic_barrier_enabled);
 	if (magnetic_barrier_enabled) {
-		set_mira_param_("MainControlUnit.RearLaser.Enabled", "true");
+		try{
+			set_mira_param_("MainControlUnit.RearLaser.Enabled", "true");
+		}catch(...){}
 	}  else {
 		ROS_WARN("Magnetic barrier motor stop not enabled.");
-		set_mira_param_("MainControlUnit.RearLaser.Enabled", "false");
+		try{
+			set_mira_param_("MainControlUnit.RearLaser.Enabled", "false");
+		}catch(...){}
 	}
 
 	// Change odometry frame
@@ -105,14 +116,17 @@ void ScitosDrive::motor_status_callback(mira::ChannelRead<uint8> data) {
 
 	scitos_msgs::MotorStatus s;
 	s.header.stamp = time_now;
-	s.normal = (*data) & 1;
-	s.motor_stopped = (*data) & (1 << 1);
-	s.free_run = (*data) & (1 << 2);
-	s.emergency_button_pressed = (*data) & (1 << 3);
-	s.bumper_pressed = (*data) & (1 << 4);
-	s.bus_error = (*data) & (1 << 5);
-	s.stall_mode_flag = (*data) & (1 << 6);
-	s.internal_error_flag = (*data) & (1 << 7);
+	s.normal = (bool)((*data) & 1);
+	s.motor_stopped = (bool)((*data) & (1 << 1));
+	s.free_run = (bool)((*data) & (1 << 2));
+	s.emergency_button_pressed = (bool)((*data) & (1 << 3));
+	s.bumper_pressed = (bool)((*data) & (1 << 4));
+	s.bus_error = (bool)((*data) & (1 << 5));
+	s.stall_mode_flag = (bool)((*data) & (1 << 6));
+	s.internal_error_flag = (bool)((*data) & (1 << 7));
+
+	ROS_DEBUG("Motor controller status (Nor: %i, MStop: %i, FreeRun: %i, EmBut: %i, BumpPres: %i, BusErr: %i, Stall: %i, InterErr: %i)",
+				s.normal, s.motor_stopped, s.free_run, s.emergency_button_pressed, s.bumper_pressed, s.bus_error, s.stall_mode_flag, s.internal_error_flag);
 
 	motorstatus_pub_.publish(s);
 }
@@ -136,27 +150,9 @@ void ScitosDrive::motor_status_expanded_callback(mira::ChannelRead<uint32> data)
 	s.safety_field_front_laser = (bool)((*data) & (1 << 26));
 	s.safety_field_front_laser = (bool)((*data) & (1 << 27));
 
-	// Commented lines are bit not discovered
-	/*s.bus_error = (*data) & (1 << 5);
-	s.stall_mode_flag = (*data) & (1 << 6);
-	s.internal_error_flag = (*data) & (1 << 7);
-	s.error_battery_low = (dat) & (1 << 31);
-	s.error_firmware = (dat) & (1 << 30);
-	s.error_motor_acceleration = (dat) & (1 << 29);
-	s.error_motor_left = (dat) & (1 << 28);
-	s.error_motor_right = (dat) & (1 << 27);
-	s.error_rotation_too_high = (dat) & (1 << 26);
-	s.error_SIFAS_communication = (dat) & (1 << 19);
-	s.error_SIFAS_internal = (dat) & (1 << 20);
-	s.error_stall_mode = (dat) & (1 << 21);
-	s.error_temperature_high = (dat) & (1 << 22);
-	s.external_safety_control_status = (dat) & (1 << 23);
-	s.limited_PWM_left = (dat) & (1 << 24);
-	s.limited_PWM_right = (dat) & (1 << 25);
-	s.magnetic_proximity_sensor_activated = (dat) & (1 << 3);
-	s.magnetic_proximity_sensor_status = (dat) & (1 << 4);
-	s.mode_bumper_escape = (dat) & (1 << 5);
-	s.mode_safe_drive = (dat) & (1 << 6);*/
+	ROS_DEBUG("Motor controller status (Nor: %i, MStop: %i, FreeRun: %i, EmBut: %i, BumpPres: %i, BusErr: %i, Stall: %i, InterErr: %i)",
+			s.normal, s.motor_stopped, s.free_run, s.emergency_button_pressed, s.bumper_pressed, s.bus_error, s.stall_mode_flag, s.internal_error_flag);
+
 
 	motorstatus_pub_.publish(s); 
 }
@@ -209,6 +205,7 @@ bool ScitosDrive::reset_motor_stop(scitos_msgs::ResetMotorStop::Request  &req, s
 	mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", std::string("resetMotorStop"));
 	r.timedWait(mira::Duration::seconds(1));
 	r.get(); 
+	ROS_INFO("Reset motor stop: %i", true);
 
 	return true;
 }
@@ -217,7 +214,8 @@ bool ScitosDrive::reset_odometry(scitos_msgs::ResetOdometry::Request  &req, scit
 	//  call_mira_service
 	mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", std::string("resetOdometry"));
 	r.timedWait(mira::Duration::seconds(1));
-	r.get(); 
+	r.get();
+	ROS_INFO("Reset odometry: %i", true);
 
 	return true;
 }
@@ -228,7 +226,8 @@ bool ScitosDrive::emergency_stop(scitos_msgs::EmergencyStop::Request  &req, scit
 	emergency_stop_pub_.publish(emergency_stop_);
 	mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", std::string("emergencyStop"));
 	r.timedWait(mira::Duration::seconds(1));
-	r.get(); 
+	r.get();
+	ROS_INFO("Emergency stop: %i", true);
 
 	return true;
 }
@@ -237,7 +236,8 @@ bool ScitosDrive::enable_motors(scitos_msgs::EnableMotors::Request  &req, scitos
 	//  call_mira_service
 	mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", std::string("enableMotors"),(bool)req.enable);
 	r.timedWait(mira::Duration::seconds(1));
-	r.get(); 
+	r.get();
+	ROS_INFO("Enable motor: %i", true);
 
 	return true;
 }
