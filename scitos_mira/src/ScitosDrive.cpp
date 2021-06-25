@@ -36,12 +36,12 @@ void ScitosDrive::initialize() {
 		std::stof(get_mira_param_("MainControlUnit.FPGAVersion"));
 		robot_->getMiraAuthority().subscribe<uint8>("/robot/MotorStatus", &ScitosDrive::motor_status_callback, this);
 		ROS_INFO("You are using a FPGA version motor controller.");
-	}catch(...){
+	}catch(mira::Exception& ex){
 		try{
 			std::stof(get_mira_param_("MotorController.SIFASVersion"));
 			robot_->getMiraAuthority().subscribe<uint32>("/robot/DriveStatusPlain", &ScitosDrive::motor_status_expanded_callback, this);
 			ROS_INFO("You are using a SIFAS version motor controller.");
-		}catch(...){
+		}catch(mira::Exception& ex){
 			ROS_ERROR("Your motor controller is not compatible with this ros node.");
 		}
 	}
@@ -60,15 +60,15 @@ void ScitosDrive::initialize() {
 
 	bool magnetic_barrier_enabled = true;
 	ros::param::param("~magnetic_barrier_enabled", magnetic_barrier_enabled, magnetic_barrier_enabled);
-	if (magnetic_barrier_enabled) {
+	if(magnetic_barrier_enabled){
 		try{
 			set_mira_param_("MainControlUnit.RearLaser.Enabled", "true");
-		}catch(...){}
-	}  else {
+		}catch(mira::Exception& ex){}
+	}else{
 		ROS_WARN("Magnetic barrier motor stop not enabled.");
 		try{
 			set_mira_param_("MainControlUnit.RearLaser.Enabled", "false");
-		}catch(...){}
+		}catch(mira::Exception& ex){}
 	}
 
 	// Change odometry frame
@@ -83,9 +83,12 @@ void ScitosDrive::initialize() {
 
 void ScitosDrive::velocity_command_callback(const geometry_msgs::Twist::ConstPtr& msg) {
 	// if ( !barrier_status_.barrier_stopped && !emergency_stop_.data) {
-		mira::RigidTransform<float, 2> speed(msg->linear.x, 0, msg->angular.z);
-		mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", "setVelocity", speed);
-		r.wait();
+		try{
+			mira::Velocity2 speed(msg->linear.x, 0, msg->angular.z);
+			robot_->getMiraAuthority().callService<void>("/robot/Robot", "setVelocity", speed).get();
+		}catch(mira::Exception& ex){
+			ROS_ERROR_STREAM("ERROR: " << ex.what());
+		}
 	// }
 }
 

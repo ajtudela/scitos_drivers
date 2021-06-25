@@ -1,6 +1,11 @@
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Changelog for package scitos_mira
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+0.2.6 (2021-06-25)
+------------------
+* Add try-catch to Scitos node.
+* Update velocity_command_callback.
+
 0.2.5 (2021-06-15)
 ------------------
 * Update channels to latest version of MIRA.

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package format="2">
 	<name>scitos_mira</name>
-	<version>0.2.5</version>
+	<version>0.2.6</version>
 	<description>Driver for Scitos-G5 using the MIRA framework.</description>
 	<maintainer email="marc@hanheide.net">Marc Hanheide</maintainer>  
 	<author email="marc@hanheide.net">Marc Hanheide</author>
