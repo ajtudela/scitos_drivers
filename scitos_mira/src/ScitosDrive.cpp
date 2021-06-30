@@ -208,7 +208,7 @@ bool ScitosDrive::reset_motor_stop(scitos_msgs::ResetMotorStop::Request  &req, s
 	mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", std::string("resetMotorStop"));
 	r.timedWait(mira::Duration::seconds(1));
 	r.get(); 
-	ROS_INFO("Reset motor stop: %i", true);
+	ROS_DEBUG("Reset motor stop: %i", true);
 
 	return true;
 }
@@ -218,7 +218,7 @@ bool ScitosDrive::reset_odometry(scitos_msgs::ResetOdometry::Request  &req, scit
 	mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", std::string("resetOdometry"));
 	r.timedWait(mira::Duration::seconds(1));
 	r.get();
-	ROS_INFO("Reset odometry: %i", true);
+	ROS_DEBUG("Reset odometry: %i", true);
 
 	return true;
 }
