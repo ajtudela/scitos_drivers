@@ -230,7 +230,7 @@ bool ScitosDrive::emergency_stop(scitos_msgs::EmergencyStop::Request  &req, scit
 	mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", std::string("emergencyStop"));
 	r.timedWait(mira::Duration::seconds(1));
 	r.get();
-	ROS_INFO("Emergency stop: %i", true);
+	ROS_DEBUG("Emergency stop: %i", true);
 
 	return true;
 }
@@ -240,7 +240,7 @@ bool ScitosDrive::enable_motors(scitos_msgs::EnableMotors::Request  &req, scitos
 	mira::RPCFuture<void> r = robot_->getMiraAuthority().callService<void>("/robot/Robot", std::string("enableMotors"),(bool)req.enable);
 	r.timedWait(mira::Duration::seconds(1));
 	r.get();
-	ROS_INFO("Enable motor: %i", true);
+	ROS_DEBUG("Enable motor: %i", true);
 
 	return true;
 }
